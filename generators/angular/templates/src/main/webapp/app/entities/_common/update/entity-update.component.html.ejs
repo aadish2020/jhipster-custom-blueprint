@@ -1,0 +1,209 @@
+<div class="entity-update-container">
+    <div class="update-header">
+        <div class="header-content">
+            <h2 id="<%= entityInstance %>-heading" data-cy="<%= entityClass %>CreateUpdateHeading">
+                <span jhiTranslate="<%= i18nKeyPrefix %>.home.createOrEditLabel">
+                    Create or edit a <%= entityClass %>
+                </span>
+            </h2>
+            <p class="text-muted" jhiTranslate="<%= i18nKeyPrefix %>.home.createOrEditDescription">
+                Fill in the form below to create or update a <%= entityClass %>
+            </p>
+        </div>
+    </div>
+
+    <div class="update-content jhi-card">
+        <div class="alert alert-danger" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>{{ errorMessage }}</span>
+        </div>
+
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <div class="form-sections">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3 jhiTranslate="<%= i18nKeyPrefix %>.sections.basic">Basic Information</h3>
+                    
+                    <%_ for (const field of fields.filter(field => !field.id)) { _%>
+                    <div class="form-group jhi-form-group">
+                        <label class="form-label" jhiTranslate="<%= i18nKeyPrefix %>.<%= field.fieldName %>" for="field_<%= field.fieldName %>">
+                            <%= field.fieldNameHumanized %>
+                        </label>
+                        
+                        <%_ if (field.fieldType === 'Boolean') { _%>
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="<%= field.fieldName %>"
+                                   id="field_<%= field.fieldName %>"
+                                   formControlName="<%= field.fieldName %>"
+                                   data-cy="<%= field.fieldName %>"/>
+                            <label class="form-check-label" for="field_<%= field.fieldName %>">
+                                {{ editForm.get('<%= field.fieldName %>')?.value ? 'Yes' : 'No' }}
+                            </label>
+                        </div>
+                        <%_ } else if (field.fieldIsEnum) { _%>
+                        <select class="form-control"
+                                name="<%= field.fieldName %>"
+                                id="field_<%= field.fieldName %>"
+                                formControlName="<%= field.fieldName %>"
+                                data-cy="<%= field.fieldName %>">
+                            <option [ngValue]="null">{{ 'entity.select.placeholder' | translate }}</option>
+                            <%_ const enumPrefix = field.enumPrefix _%>
+                            <option *ngFor="let <%= field.fieldName %> of <%= field.fieldName %>Values" [value]="<%= field.fieldName %>">
+                                {{ '<%= enumPrefix %>.' + <%= field.fieldName %> | translate }}
+                            </option>
+                        </select>
+                        <%_ } else if (field.fieldType === 'LocalDate' || field.fieldType === 'ZonedDateTime' || field.fieldType === 'Instant') { _%>
+                        <div class="input-group">
+                            <input type="text"
+                                   class="form-control"
+                                   name="<%= field.fieldName %>"
+                                   id="field_<%= field.fieldName %>"
+                                   formControlName="<%= field.fieldName %>"
+                                   data-cy="<%= field.fieldName %>"
+                                   ngbDatepicker
+                                   #<%= field.fieldName %>Dp="ngbDatepicker"/>
+                            <button type="button" class="btn btn-modern" (click)="<%= field.fieldName %>Dp.toggle()">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                        <%_ } else if (field.fieldType === 'ImageBlob' || field.fieldType === 'Blob') { _%>
+                        <div class="custom-file-upload">
+                            <input type="file"
+                                   id="file_<%= field.fieldName %>"
+                                   data-cy="<%= field.fieldName %>"
+                                   (change)="setFileData($event, '<%= field.fieldName %>', <%= field.fieldType === 'ImageBlob' %>)"
+                                   accept="<%= field.fieldType === 'ImageBlob' ? 'image/*' : '*' %>"/>
+                            <label class="custom-file-label" for="file_<%= field.fieldName %>">
+                                <i class="fas fa-upload"></i>
+                                <span>Choose file</span>
+                            </label>
+                        </div>
+                        <div *ngIf="editForm.get('<%= field.fieldName %>')?.value" class="form-text text-muted">
+                            <i class="fas fa-file"></i> {{ editForm.get('<%= field.fieldName %>ContentType')?.value }}, {{ byteSize(editForm.get('<%= field.fieldName %>')?.value) }}
+                        </div>
+                        <%_ } else { _%>
+                        <input type="<%= field.fieldType === 'Integer' || field.fieldType === 'Long' || field.fieldType === 'Float' || field.fieldType === 'Double' || field.fieldType === 'BigDecimal' ? 'number' : 'text' %>"
+                               class="form-control"
+                               name="<%= field.fieldName %>"
+                               id="field_<%= field.fieldName %>"
+                               formControlName="<%= field.fieldName %>"
+                               data-cy="<%= field.fieldName %>"/>
+                        <%_ } _%>
+                        
+                        <div *ngIf="editForm.get('<%= field.fieldName %>')?.invalid && (editForm.get('<%= field.fieldName %>')?.dirty || editForm.get('<%= field.fieldName %>')?.touched)">
+                            <%_ if (field.fieldValidate) {
+                                field.fieldValidateRules.forEach(rule => {
+                                    if (rule === 'required') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.required"
+                                   jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                            <%_ }
+                                    if (rule === 'minlength') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.minlength"
+                                   jhiTranslate="entity.validation.minlength"
+                                   [translateValues]="{ min: <%= field.fieldValidateRulesMinlength %> }">
+                                This field is required to be at least <%= field.fieldValidateRulesMinlength %> characters.
+                            </small>
+                            <%_ }
+                                    if (rule === 'maxlength') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.maxlength"
+                                   jhiTranslate="entity.validation.maxlength"
+                                   [translateValues]="{ max: <%= field.fieldValidateRulesMaxlength %> }">
+                                This field cannot be longer than <%= field.fieldValidateRulesMaxlength %> characters.
+                            </small>
+                            <%_ }
+                                    if (rule === 'min') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.min"
+                                   jhiTranslate="entity.validation.min"
+                                   [translateValues]="{ min: <%= field.fieldValidateRulesMin %> }">
+                                This field should be at least <%= field.fieldValidateRulesMin %>.
+                            </small>
+                            <%_ }
+                                    if (rule === 'max') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.max"
+                                   jhiTranslate="entity.validation.max"
+                                   [translateValues]="{ max: <%= field.fieldValidateRulesMax %> }">
+                                This field cannot be more than <%= field.fieldValidateRulesMax %>.
+                            </small>
+                            <%_ }
+                                    if (rule === 'pattern') { _%>
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('<%= field.fieldName %>')?.errors?.pattern"
+                                   jhiTranslate="entity.validation.pattern"
+                                   [translateValues]="{ pattern: '<%= field.fieldValidateRulesPattern %>' }">
+                                This field should follow pattern for "<%= field.fieldValidateRulesPattern %>".
+                            </small>
+                            <%_ }
+                                });
+                            } _%>
+                        </div>
+                    </div>
+                    <%_ } _%>
+                </div>
+
+                <!-- Relationships -->
+                <%_ if (relationships.length > 0) { _%>
+                <div class="form-section">
+                    <h3 jhiTranslate="<%= i18nKeyPrefix %>.sections.relationships">Relationships</h3>
+                    
+                    <%_ for (const relationship of relationships) { _%>
+                    <div class="form-group jhi-form-group">
+                        <label class="form-label" jhiTranslate="<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>" for="field_<%= relationship.relationshipName %>">
+                            <%= relationship.relationshipNameHumanized %>
+                        </label>
+                        
+                        <%_ if (relationship.relationshipType === 'many-to-one' || relationship.relationshipType === 'one-to-one') { _%>
+                        <select class="form-control"
+                                id="field_<%= relationship.relationshipName %>"
+                                data-cy="<%= relationship.relationshipName %>"
+                                formControlName="<%= relationship.relationshipName %>"
+                                [compareWith]="compare<%= relationship.otherEntityNameCapitalized %>ById">
+                            <option [ngValue]="null">{{ 'entity.select.placeholder' | translate }}</option>
+                            <option [ngValue]="<%= relationship.otherEntityName %>Option" 
+                                    *ngFor="let <%= relationship.otherEntityName %>Option of <%= relationship.otherEntityNamePlural %>">
+                                {{ <%= relationship.otherEntityName %>Option.<%= relationship.otherEntityField %> }}
+                            </option>
+                        </select>
+                        <%_ } else if (relationship.relationshipType === 'many-to-many') { _%>
+                        <select class="form-control"
+                                id="field_<%= relationship.relationshipName %>"
+                                data-cy="<%= relationship.relationshipName %>"
+                                multiple
+                                formControlName="<%= relationship.relationshipName %>"
+                                [compareWith]="compare<%= relationship.otherEntityNameCapitalized %>ById">
+                            <option [ngValue]="<%= relationship.otherEntityName %>Option" 
+                                    *ngFor="let <%= relationship.otherEntityName %>Option of <%= relationship.otherEntityNamePlural %>">
+                                {{ <%= relationship.otherEntityName %>Option.<%= relationship.otherEntityField %> }}
+                            </option>
+                        </select>
+                        <%_ } _%>
+                    </div>
+                    <%_ } _%>
+                </div>
+                <%_ } _%>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-modern" (click)="previousState()">
+                    <i class="fas fa-ban"></i>
+                    <span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit"
+                        [disabled]="editForm.invalid || isSaving"
+                        class="btn btn-modern btn-primary">
+                    <i class="fas fa-save"></i>
+                    <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div> 

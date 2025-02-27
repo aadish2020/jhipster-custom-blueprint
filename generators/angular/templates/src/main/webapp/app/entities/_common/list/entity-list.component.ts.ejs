@@ -1,0 +1,95 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { <%= entityAngularName %> } from '../<%= entityFileName %>.model';
+import { <%= entityAngularName %>Service } from '../service/<%= entityFileName %>.service';
+import { <%= entityAngularName %>DeleteDialogComponent } from '../delete/<%= entityFileName %>-delete-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from 'app/core/auth/account.service';
+
+@Component({
+  selector: '<%= jhiPrefix %>-<%= entityFileName %>',
+  templateUrl: './<%= entityFileName %>.component.html',
+  styleUrls: ['./<%= entityFileName %>.component.scss']
+})
+export class <%= entityAngularName %>Component implements OnInit, OnDestroy {
+  <%= entityInstancePlural %>?: <%= entityAngularName %>[];
+  isLoading = false;
+  viewMode: 'grid' | 'list' = 'grid';
+  searchTerm = '';
+  totalItems = 0;
+  itemsPerPage = 20;
+  page = 1;
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    protected <%= entityInstance %>Service: <%= entityAngularName %>Service,
+    protected modalService: NgbModal,
+    protected router: Router,
+    protected accountService: AccountService
+  ) {}
+
+  loadAll(): void {
+    this.isLoading = true;
+    this.<%= entityInstance %>Service
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        query: this.searchTerm,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res: any) => {
+          this.isLoading = false;
+          this.<%= entityInstancePlural %> = res.body;
+          this.totalItems = Number(res.headers.get('X-Total-Count'));
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+  }
+
+  ngOnInit(): void {
+    this.loadAll();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  trackId(index: number, item: <%= entityAngularName %>): <%= primaryKeyType %> {
+    return item.<%= primaryKey.name %>;
+  }
+
+  delete(entity: <%= entityAngularName %>): void {
+    const modalRef = this.modalService.open(<%= entityAngularName %>DeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.<%= entityInstance %> = entity;
+    modalRef.closed.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.loadAll();
+      }
+    });
+  }
+
+  onSearch(): void {
+    this.page = 1;
+    this.loadAll();
+  }
+
+  onPageChange(page: number): void {
+    this.page = page;
+    this.loadAll();
+  }
+
+  toggleViewMode(): void {
+    this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+  }
+
+  hasAnyAuthority(authorities: string[] | string): boolean {
+    return this.accountService.hasAnyAuthority(authorities);
+  }
+} 

@@ -1,0 +1,93 @@
+<div class="entity-detail-container">
+    <div class="detail-header">
+        <div class="header-content">
+            <h2>
+                <span jhiTranslate="<%= i18nKeyPrefix %>.detail.title"><%= entityClass %> Details</span>
+                {{ <%= entityInstance %>.<%= primaryKey.name %> }}
+            </h2>
+            <p class="text-muted" jhiTranslate="<%= i18nKeyPrefix %>.detail.subtitle">
+                View and manage <%= entityClass %> details
+            </p>
+        </div>
+        
+        <div class="header-actions">
+            <button type="button" class="btn btn-modern" (click)="previousState()">
+                <i class="fas fa-arrow-left"></i>
+                <span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    class="btn btn-modern btn-primary"
+                    [routerLink]="['../../', <%= entityInstance %>.<%= primaryKey.name %>, 'edit']">
+                <i class="fas fa-pencil-alt"></i>
+                <span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="detail-content jhi-card">
+        <dl class="detail-list">
+            <%_ for (const field of fields) { _%>
+            <div class="detail-item">
+                <dt>
+                    <span jhiTranslate="<%= i18nKeyPrefix %>.<%= field.fieldName %>"><%= field.fieldNameHumanized %></span>
+                </dt>
+                <dd>
+                    <%_ if (field.fieldType === 'Boolean') { _%>
+                    <span class="badge" [ngClass]="<%= entityInstance %>.<%= field.fieldName %> ? 'badge-success' : 'badge-danger'">
+                        {{ <%= entityInstance %>.<%= field.fieldName %> ? 'Yes' : 'No' }}
+                    </span>
+                    <%_ } else if (field.fieldType === 'LocalDate' || field.fieldType === 'ZonedDateTime' || field.fieldType === 'Instant') { _%>
+                    <span>{{ <%= entityInstance %>.<%= field.fieldName %> | date:'medium' }}</span>
+                    <%_ } else if (field.fieldIsEnum) { _%>
+                    <span jhiTranslate="{{ '<%= field.enumPrefix %>.' + <%= entityInstance %>.<%= field.fieldName %> }}">
+                        {{ <%= entityInstance %>.<%= field.fieldName %> }}
+                    </span>
+                    <%_ } else if (field.fieldType === 'ImageBlob' || field.fieldType === 'Blob') { _%>
+                    <div *ngIf="<%= entityInstance %>.<%= field.fieldName %>">
+                        <a (click)="openFile(<%= entityInstance %>.<%= field.fieldName %>, <%= entityInstance %>.<%= field.fieldName %>ContentType)">
+                            <img [src]="'data:' + <%= entityInstance %>.<%= field.fieldName %>ContentType + ';base64,' + <%= entityInstance %>.<%= field.fieldName %>"
+                                 class="img-thumbnail"
+                                 style="max-width: 200px;"
+                                 alt="<%= entityInstance %> image"/>
+                        </a>
+                        {{ <%= entityInstance %>.<%= field.fieldName %>ContentType }}, {{ byteSize(<%= entityInstance %>.<%= field.fieldName %>) }}
+                    </div>
+                    <%_ } else if (field.fieldType === 'TextBlob') { _%>
+                    <span>{{ <%= entityInstance %>.<%= field.fieldName %> }}</span>
+                    <%_ } else { _%>
+                    <span>{{ <%= entityInstance %>.<%= field.fieldName %> }}</span>
+                    <%_ } _%>
+                </dd>
+            </div>
+            <%_ } _%>
+
+            <%_ for (const relationship of relationships) { _%>
+            <div class="detail-item">
+                <dt>
+                    <span jhiTranslate="<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>">
+                        <%= relationship.relationshipNameHumanized %>
+                    </span>
+                </dt>
+                <dd>
+                    <%_ if (relationship.relationshipType === 'many-to-one' || relationship.relationshipType === 'one-to-one') { _%>
+                    <div *ngIf="<%= entityInstance %>.<%= relationship.relationshipFieldName %>">
+                        <a [routerLink]="['/<%= relationship.otherEntityPath %>', <%= entityInstance %>.<%= relationship.relationshipFieldName %>.<%= relationship.otherEntityField %>, 'view']">
+                            {{ <%= entityInstance %>.<%= relationship.relationshipFieldName %>.<%= relationship.otherEntityField %> }}
+                        </a>
+                    </div>
+                    <%_ } else if (relationship.relationshipType === 'many-to-many' || relationship.relationshipType === 'one-to-many') { _%>
+                    <div class="relationship-list">
+                        <span *ngFor="let <%= relationship.relationshipFieldNamePlural %> of <%= entityInstance %>.<%= relationship.relationshipFieldName %>">
+                            <a [routerLink]="['/<%= relationship.otherEntityPath %>', <%= relationship.relationshipFieldNamePlural %>.<%= relationship.otherEntityField %>, 'view']">
+                                {{ <%= relationship.relationshipFieldNamePlural %>.<%= relationship.otherEntityField %> }}
+                            </a>{{ last ? '' : ', ' }}
+                        </span>
+                    </div>
+                    <%_ } _%>
+                </dd>
+            </div>
+            <%_ } _%>
+        </dl>
+    </div>
+</div>

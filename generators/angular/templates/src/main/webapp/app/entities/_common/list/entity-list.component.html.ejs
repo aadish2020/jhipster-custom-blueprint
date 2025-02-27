@@ -1,0 +1,261 @@
+<div class="entity-list-container modern-list-container">
+    <!-- Header Section -->
+    <div class="list-header">
+        <div class="header-title">
+            <h2 data-cy="<%= entityInstance %>Heading">
+                <span jhiTranslate="<%= i18nKeyPrefix %>.home.title"><%= entityClassPlural %></span>
+            </h2>
+            <p class="text-muted" jhiTranslate="<%= i18nKeyPrefix %>.home.subtitle">
+                Manage your <%= entityClassPlural %>
+            </p>
+        </div>
+        
+        <div class="header-actions">
+            <!-- Create Button -->
+            <button
+                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                class="btn-modern btn-primary"
+                [routerLink]="['./new']"
+                data-cy="entityCreateButton"
+            >
+                <i class="fas fa-plus"></i>
+                <span jhiTranslate="<%= i18nKeyPrefix %>.home.createLabel">
+                    Create <%= entityClass %>
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filters-section">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchTerm"
+                (input)="search()"
+                placeholder="{{ '<%= i18nKeyPrefix %>.home.search' | translate }}"
+            />
+        </div>
+
+        <div class="view-options">
+            <button
+                class="btn-modern"
+                [class.active]="viewMode === 'grid'"
+                (click)="viewMode = 'grid'"
+            >
+                <i class="fas fa-th-large"></i>
+            </button>
+            <button
+                class="btn-modern"
+                [class.active]="viewMode === 'list'"
+                (click)="viewMode = 'list'"
+            >
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Alert Section -->
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+
+    <!-- Loading State -->
+    <div class="loading-indicator" *ngIf="loading">
+        <div class="spinner"></div>
+        <span jhiTranslate="global.messages.loading">Loading...</span>
+    </div>
+
+    <!-- No Results State -->
+    <div class="no-results" *ngIf="<%= entityInstancePlural %>?.length === 0">
+        <div class="empty-state">
+            <i class="fas fa-inbox fa-3x"></i>
+            <p jhiTranslate="<%= i18nKeyPrefix %>.home.notFound">
+                No <%= entityInstancePlural %> found
+            </p>
+        </div>
+    </div>
+
+    <!-- Grid View -->
+    <div class="entity-grid" *ngIf="viewMode === 'grid' && <%= entityInstancePlural %>?.length > 0">
+        <div class="entity-card jhi-card" *ngFor="let <%= entityInstance %> of <%= entityInstancePlural %> trackBy: trackId" data-cy="entityTable">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h3>{{ <%= entityInstance %>.<%= primaryKey.name %> }}</h3>
+                <div class="card-actions">
+                    <div class="btn-group">
+                        <button
+                            type="submit"
+                            [routerLink]="['./', <%= entityInstance %>.<%= primaryKey.name %>, 'view']"
+                            class="btn btn-modern btn-info"
+                            data-cy="entityDetailsButton"
+                        >
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                        <button
+                            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                            type="submit"
+                            [routerLink]="['./', <%= entityInstance %>.<%= primaryKey.name %>, 'edit']"
+                            class="btn btn-modern btn-primary"
+                            data-cy="entityEditButton"
+                        >
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+
+                        <button
+                            *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                            type="submit"
+                            (click)="delete(<%= entityInstance %>)"
+                            class="btn btn-modern btn-danger"
+                            data-cy="entityDeleteButton"
+                        >
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="card-content">
+                <%_ for (const field of fields.filter(field => !field.id)) { _%>
+                <div class="field-group">
+                    <label class="field-label" jhiTranslate="<%= i18nKeyPrefix %>.<%= field.fieldName %>">
+                        <%= field.fieldNameHumanized %>
+                    </label>
+                    <%_ if (field.fieldType === 'Boolean') { _%>
+                    <span class="badge" [ngClass]="<%= entityInstance %>.<%= field.fieldName %> ? 'badge-success' : 'badge-danger'">
+                        {{ <%= entityInstance %>.<%= field.fieldName %> ? 'Yes' : 'No' }}
+                    </span>
+                    <%_ } else if (field.fieldType === 'LocalDate' || field.fieldType === 'ZonedDateTime' || field.fieldType === 'Instant') { _%>
+                    <span>{{ <%= entityInstance %>.<%= field.fieldName %> | date:'medium' }}</span>
+                    <%_ } else if (field.fieldIsEnum) { _%>
+                    <span jhiTranslate="{{ '<%= field.enumPrefix %>.' + <%= entityInstance %>.<%= field.fieldName %> }}">
+                        {{ <%= entityInstance %>.<%= field.fieldName %> }}
+                    </span>
+                    <%_ } else { _%>
+                    <span>{{ <%= entityInstance %>.<%= field.fieldName %> }}</span>
+                    <%_ } _%>
+                </div>
+                <%_ } _%>
+            </div>
+        </div>
+    </div>
+
+    <!-- List View -->
+    <div class="table-responsive" *ngIf="viewMode === 'list' && <%= entityInstancePlural %>?.length > 0">
+        <table class="table jhi-table" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+                    <%_ for (const field of fields) { _%>
+                    <th scope="col" jhiSortBy="<%= field.fieldName %>">
+                        <div class="d-flex">
+                            <span jhiTranslate="<%= i18nKeyPrefix %>.<%= field.fieldName %>">
+                                <%= field.fieldNameHumanized %>
+                            </span>
+                            <fa-icon class="p-1" icon="sort"></fa-icon>
+                        </div>
+                    </th>
+                    <%_ } _%>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let <%= entityInstance %> of <%= entityInstancePlural %>; trackBy: trackId" data-cy="entityTable">
+                    <%_ for (const field of fields) { _%>
+                    <td>
+                        <%_ if (field.fieldType === 'Boolean') { _%>
+                        <span class="badge" [ngClass]="<%= entityInstance %>.<%= field.fieldName %> ? 'badge-success' : 'badge-danger'">
+                            {{ <%= entityInstance %>.<%= field.fieldName %> ? 'Yes' : 'No' }}
+                        </span>
+                        <%_ } else if (field.fieldType === 'LocalDate' || field.fieldType === 'ZonedDateTime' || field.fieldType === 'Instant') { _%>
+                        {{ <%= entityInstance %>.<%= field.fieldName %> | date:'medium' }}
+                        <%_ } else if (field.fieldIsEnum) { _%>
+                        <span jhiTranslate="{{ '<%= field.enumPrefix %>.' + <%= entityInstance %>.<%= field.fieldName %> }}">
+                            {{ <%= entityInstance %>.<%= field.fieldName %> }}
+                        </span>
+                        <%_ } else { _%>
+                        {{ <%= entityInstance %>.<%= field.fieldName %> }}
+                        <%_ } _%>
+                    </td>
+                    <%_ } _%>
+                    <td class="text-end">
+                        <div class="btn-group">
+                            <button
+                                type="submit"
+                                [routerLink]="['./', <%= entityInstance %>.<%= primaryKey.name %>, 'view']"
+                                class="btn btn-modern btn-info btn-sm"
+                                data-cy="entityDetailsButton"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+
+                            <button
+                                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                [routerLink]="['./', <%= entityInstance %>.<%= primaryKey.name %>, 'edit']"
+                                class="btn btn-modern btn-primary btn-sm"
+                                data-cy="entityEditButton"
+                            >
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+
+                            <button
+                                *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                                type="submit"
+                                (click)="delete(<%= entityInstance %>)"
+                                class="btn btn-modern btn-danger btn-sm"
+                                data-cy="entityDeleteButton"
+                            >
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" *ngIf="<%= entityInstancePlural %>?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination
+                [collectionSize]="totalItems"
+                [page]="page"
+                [pageSize]="itemsPerPage"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                (pageChange)="navigateToPage($event)"
+            ></ngb-pagination>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <p jhiTranslate="<%= i18nKeyPrefix %>.delete.question" [translateValues]="{ id: <%= entityInstance %>.<%= primaryKey.name %> }">
+            Are you sure you want to delete <%= entityClass %> {{ <%= entityInstance %>.<%= primaryKey.name %> }}?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-modern" (click)="modal.dismiss()">
+            <i class="fas fa-ban"></i>
+            <span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="button" class="btn btn-modern btn-danger" (click)="modal.close()">
+            <i class="fas fa-trash"></i>
+            <span jhiTranslate="entity.action.delete">Delete</span>
+        </button>
+    </div>
+</ng-template> 
