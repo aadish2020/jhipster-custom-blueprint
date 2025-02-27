@@ -1,0 +1,35 @@
+{
+  "name": "generator-jhipster-local-npm",
+  "version": "0.1.0",
+  "description": "JHipster blueprint for replacing frontend-maven-plugin with exec-maven-plugin",
+  "keywords": [
+    "yeoman-generator",
+    "jhipster-blueprint",
+    "jhipster-8"
+  ],
+  "homepage": "https://github.com/yourusername/generator-jhipster-local-npm",
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com"
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/generator-jhipster-local-npm.git"
+  },
+  "dependencies": {
+    "chalk": "4.1.2",
+    "generator-jhipster": "8.0.0",
+    "yeoman-generator": "5.9.0"
+  },
+  "devDependencies": {
+    "yeoman-assert": "3.1.1",
+    "yeoman-test": "8.2.0"
+  },
+  "engines": {
+    "node": ">=18.18.2"
+  }
+}
