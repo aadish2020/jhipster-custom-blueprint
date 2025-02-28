@@ -114,9 +114,37 @@ export default class extends ServerGenerator {
             
             // Also remove any frontend-related profiles if they exist
             modifiedContent = modifiedContent.replace(
-              /<profile>\s*<id>.*?node.*?<\/profile>/gs,
+              /<profile>\s*<id>node<\/id>[\s\S]*?<\/profile>/gs,
               ''
             );
+            
+            // Update webpack profile if it exists to use exec-maven-plugin instead of frontend-maven-plugin
+            if (modifiedContent.includes('<id>webpack</id>')) {
+              modifiedContent = modifiedContent.replace(
+                /<plugin>\s*<groupId>com\.github\.eirslett<\/groupId>\s*<artifactId>frontend-maven-plugin<\/artifactId>[\s\S]*?<\/plugin>/gm,
+                `<plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <executions>
+                        <execution>
+                            <id>webpack-dev</id>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <phase>generate-resources</phase>
+                            <configuration>
+                                <executable>npm</executable>
+                                <arguments>
+                                    <argument>run</argument>
+                                    <argument>start</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>`
+              );
+            }
             
             return modifiedContent;
           });
@@ -125,6 +153,35 @@ export default class extends ServerGenerator {
         } catch (error) {
           this.log.error(`Error modifying pom.xml: ${error.message}`);
         }
+      },
+      updateNpmwCmd() {
+        this.log('Updating npmw.cmd to use system npm instead of frontend-maven-plugin');
+        
+        // Create a simple npmw.cmd that uses system npm
+        const newContent = `@echo off
+
+setlocal
+
+set NPMW_DIR=%~dp0
+
+rem This script uses the system's npm directly
+rem No attempt to download or install npm is made
+
+call npm %*
+`;
+        
+        // Check if the file exists
+        if (this.fs.exists(this.destinationPath('npmw.cmd'))) {
+          this.log('Existing npmw.cmd found, replacing with simplified version');
+          // For existing projects, completely replace the file to avoid compatibility issues
+          this.fs.write(this.destinationPath('npmw.cmd'), newContent);
+        } else {
+          this.log('npmw.cmd not found, creating a new one');
+          // For new projects, create the file
+          this.fs.write(this.destinationPath('npmw.cmd'), newContent);
+        }
+        
+        this.log('Successfully updated/created npmw.cmd to use system npm');
       }
     });
   }
