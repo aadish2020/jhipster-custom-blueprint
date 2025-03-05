@@ -37,6 +37,28 @@ export const files = {
                     renameTo: () => 'app/home/home.component.html',
                 },
                 
+                // User Management templates
+                {
+                    file: 'app/admin/user-management/list/user-management.component.html.ejs',
+                    method: 'template',
+                    renameTo: () => 'app/admin/user-management/list/user-management.component.html',
+                },
+                {
+                    file: 'app/admin/user-management/detail/user-management-detail.component.html.ejs',
+                    method: 'template',
+                    renameTo: () => 'app/admin/user-management/detail/user-management-detail.component.html',
+                },
+                {
+                    file: 'app/admin/user-management/update/user-management-update.component.html.ejs',
+                    method: 'template',
+                    renameTo: () => 'app/admin/user-management/update/user-management-update.component.html',
+                },
+                {
+                    file: 'app/admin/user-management/delete/user-management-delete-dialog.component.html.ejs',
+                    method: 'template',
+                    renameTo: () => 'app/admin/user-management/delete/user-management-delete-dialog.component.html',
+                },
+
                 // SCSS Core files
                 {
                     file: 'content/scss/_bootstrap.scss.ejs',

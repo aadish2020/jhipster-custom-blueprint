@@ -51,76 +51,79 @@
                 </li>
 
                 <!-- Administration Menu -->
-                <li
-                    *ngSwitchCase="true"
-                    ngbDropdown
-                    class="jh-nav-item"
-                    display="dynamic"
-                    routerLinkActive="is-active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                >
-                    <a class="jh-nav-link" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
-                        <fa-icon icon="users-cog"></fa-icon>
-                        <span jhiTranslate="global.menu.admin.main">Administration</span>
-                    </a>
-                    <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
-                        <li>
-                            <a
-                                class="jh-dropdown-item"
-                                routerLink="admin/user-management"
-                                routerLinkActive="is-active"
-                                (click)="collapseNavbar()"
-                            >
-                                <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.userManagement">User management</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="jh-dropdown-item"
-                                routerLink="admin/metrics"
-                                routerLinkActive="is-active"
-                                (click)="collapseNavbar()"
-                            >
-                                <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="jh-dropdown-item"
-                                routerLink="admin/health"
-                                routerLinkActive="is-active"
-                                (click)="collapseNavbar()"
-                            >
-                                <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.health">Health</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="jh-dropdown-item"
-                                routerLink="admin/configuration"
-                                routerLinkActive="is-active"
-                                (click)="collapseNavbar()"
-                            >
-                                <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="jh-dropdown-item"
-                                routerLink="admin/logs"
-                                routerLinkActive="is-active"
-                                (click)="collapseNavbar()"
-                            >
-                                <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.logs">Logs</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <ng-container *ngSwitchCase="true">
+                    <li
+                        *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                        ngbDropdown
+                        class="jh-nav-item"
+                        display="dynamic"
+                        routerLinkActive="is-active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                    >
+                        <a class="jh-nav-link" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
+                            <fa-icon icon="users-cog"></fa-icon>
+                            <span jhiTranslate="global.menu.admin.main">Administration</span>
+                        </a>
+                        <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
+                            <li>
+                                <a
+                                    class="jh-dropdown-item"
+                                    [routerLink]="['/admin/user-management']"
+                                    routerLinkActive="is-active"
+                                    (click)="collapseNavbar()"
+                                    data-cy="userManagement"
+                                >
+                                    <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+                                    <span jhiTranslate="global.menu.admin.userManagement">User management</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="jh-dropdown-item"
+                                    routerLink="admin/metrics"
+                                    routerLinkActive="is-active"
+                                    (click)="collapseNavbar()"
+                                >
+                                    <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
+                                    <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="jh-dropdown-item"
+                                    routerLink="admin/health"
+                                    routerLinkActive="is-active"
+                                    (click)="collapseNavbar()"
+                                >
+                                    <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
+                                    <span jhiTranslate="global.menu.admin.health">Health</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="jh-dropdown-item"
+                                    routerLink="admin/configuration"
+                                    routerLinkActive="is-active"
+                                    (click)="collapseNavbar()"
+                                >
+                                    <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
+                                    <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="jh-dropdown-item"
+                                    routerLink="admin/logs"
+                                    routerLinkActive="is-active"
+                                    (click)="collapseNavbar()"
+                                >
+                                    <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
+                                    <span jhiTranslate="global.menu.admin.logs">Logs</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
 
                 <!-- Language Menu -->
                 <li

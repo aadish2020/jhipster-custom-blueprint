@@ -221,4 +221,216 @@
       border-bottom: none;
     }
   }
+}
+
+.jh-user-management {
+  &-container {
+    padding: var(--jh-spacing-lg);
+    background: var(--jh-white);
+    border-radius: var(--jh-border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--jh-spacing-lg);
+
+    h2 {
+      margin: 0;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+  }
+
+  &-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: var(--jh-spacing-lg);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--jh-border-radius);
+    overflow: hidden;
+
+    th {
+      background: #f8fafc;
+      padding: var(--jh-spacing-md) var(--jh-spacing-md);
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 2px solid #e2e8f0;
+      white-space: nowrap;
+      position: relative;
+
+      fa-icon {
+        margin-left: var(--jh-spacing-xs);
+        font-size: 0.875rem;
+        color: #64748b;
+      }
+
+      &:hover {
+        background: #f1f5f9;
+      }
+    }
+
+    td {
+      padding: var(--jh-spacing-md) var(--jh-spacing-md);
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+      vertical-align: middle;
+
+      a {
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+          color: #2563eb;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    tr {
+      &:last-child td {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background: #f8fafc;
+      }
+    }
+  }
+
+  &-create {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--jh-spacing-sm);
+    padding: var(--jh-spacing-sm) var(--jh-spacing-lg);
+    background: #22c55e;
+    color: white;
+    border-radius: var(--jh-border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+
+    &:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(34, 197, 94, 0.25);
+    }
+
+    fa-icon {
+      font-size: 1rem;
+    }
+  }
+
+  &-actions {
+    display: flex;
+    gap: var(--jh-spacing-xs);
+
+    .btn {
+      padding: var(--jh-spacing-sm) var(--jh-spacing-sm);
+      border-radius: var(--jh-border-radius-sm);
+      font-size: 0.875rem;
+      border: none;
+      transition: all 0.2s ease;
+      
+      &-view {
+        background: #0ea5e9;
+        color: white;
+        &:hover { background: #0284c7; }
+      }
+      
+      &-edit {
+        background: #f59e0b;
+        color: white;
+        &:hover { background: #d97706; }
+      }
+      
+      &-delete {
+        background: #ef4444;
+        color: white;
+        &:hover { background: #dc2626; }
+        &:disabled {
+          background: #fca5a5;
+          cursor: not-allowed;
+        }
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  .activated {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--jh-spacing-xs) var(--jh-spacing-sm);
+    border-radius: var(--jh-border-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    
+    &.true {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    
+    &.false {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--jh-spacing-xs) var(--jh-spacing-sm);
+    border-radius: var(--jh-border-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: #dbeafe;
+    color: #2563eb;
+    margin: 2px 0;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--jh-spacing-sm);
+    margin-top: var(--jh-spacing-lg);
+
+    .page-item {
+      .page-link {
+        padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+        border: 1px solid #e2e8f0;
+        border-radius: var(--jh-border-radius-sm);
+        color: #3b82f6;
+        background: white;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: #f8fafc;
+          border-color: #cbd5e1;
+        }
+      }
+
+      &.active .page-link {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
+
+      &.disabled .page-link {
+        color: #94a3b8;
+        background: #f8fafc;
+        border-color: #e2e8f0;
+        pointer-events: none;
+      }
+    }
+  }
 } 
