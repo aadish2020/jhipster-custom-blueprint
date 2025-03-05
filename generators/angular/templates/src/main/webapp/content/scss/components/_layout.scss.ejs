@@ -1,0 +1,59 @@
+// Root Layout
+.jh-layout-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.jh-layout-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--jh-container-padding);
+  
+  @include media-breakpoint-up(sm) {
+    padding: var(--jh-spacing-lg);
+  }
+}
+
+.jh-layout-content {
+  flex: 1;
+}
+
+// Navbar styles
+.jh-navbar {
+  background-color: var(--jh-primary);
+  padding: var(--jh-navbar-padding);
+  
+  @include media-breakpoint-up(md) {
+    padding: var(--jh-spacing-md) var(--jh-spacing-lg);
+  }
+}
+
+// Footer styles
+.jh-footer {
+  margin-top: auto;
+  padding: var(--jh-spacing-md);
+  background-color: var(--jh-secondary);
+  color: white;
+  text-align: center;
+}
+
+// Error Page
+.jh-error {
+  padding: var(--jh-spacing-xl);
+  text-align: center;
+}
+
+// Ribbon
+.jh-ribbon {
+  background-color: var(--jh-danger);
+  overflow: hidden;
+  position: absolute;
+  top: 40px;
+  left: -3.5em;
+  transform: rotate(-45deg);
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.75;
+} 

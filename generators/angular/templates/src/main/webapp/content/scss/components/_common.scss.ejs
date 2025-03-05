@@ -1,0 +1,110 @@
+// Cards
+.jh-card {
+  background: white;
+  border-radius: var(--jh-border-radius);
+  box-shadow: var(--jh-shadow);
+  padding: var(--jh-card-padding);
+  margin-bottom: var(--jh-spacing-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--jh-shadow-lg);
+  }
+}
+
+// Alerts
+.jh-alert {
+  padding: var(--jh-spacing-md);
+  margin-bottom: var(--jh-spacing-md);
+  border-radius: var(--jh-border-radius);
+  
+  &.jh-alert-danger {
+    background-color: var(--jh-danger);
+    color: white;
+  }
+  
+  &.jh-alert-success {
+    background-color: var(--jh-success);
+    color: white;
+  }
+  
+  &.jh-alert-warning {
+    background-color: var(--jh-warning);
+    color: white;
+  }
+  
+  &.jh-alert-info {
+    background-color: var(--jh-info);
+    color: white;
+  }
+}
+
+// Forms
+.jh-form-group {
+  margin-bottom: var(--jh-spacing-md);
+}
+
+.jh-form-label {
+  display: block;
+  margin-bottom: var(--jh-spacing-xs);
+  font-weight: 500;
+  color: var(--jh-text-color);
+}
+
+.jh-form-input {
+  width: 100%;
+  padding: var(--jh-spacing-sm);
+  border: 1px solid var(--jh-border-color);
+  border-radius: var(--jh-border-radius);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: white;
+  color: var(--jh-text-color);
+
+  &:focus {
+    outline: none;
+    border-color: var(--jh-primary);
+    box-shadow: var(--jh-shadow-sm);
+  }
+
+  &::placeholder {
+    color: var(--jh-text-muted);
+  }
+}
+
+// Tables
+.jh-table-container {
+  overflow-x: auto;
+  margin-bottom: var(--jh-spacing-lg);
+  border-radius: var(--jh-border-radius);
+  box-shadow: var(--jh-shadow-sm);
+}
+
+.jh-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  
+  th, td {
+    padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+    border-bottom: 1px solid var(--jh-border-color);
+  }
+
+  th {
+    text-align: left;
+    background-color: var(--jh-bg-light);
+    font-weight: 500;
+    color: var(--jh-text-muted);
+    white-space: nowrap;
+  }
+  
+  tbody tr {
+    &:hover {
+      background-color: var(--jh-bg-light);
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+} 

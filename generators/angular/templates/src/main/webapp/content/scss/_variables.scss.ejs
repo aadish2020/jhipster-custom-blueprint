@@ -1,0 +1,70 @@
+// Import Bootstrap functions and variables first
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+// JHipster design tokens
+:root {
+  // Colors
+  --jh-primary: var(--bs-primary);
+  --jh-secondary: var(--bs-secondary);
+  --jh-success: var(--bs-success);
+  --jh-info: var(--bs-info);
+  --jh-warning: var(--bs-warning);
+  --jh-danger: var(--bs-danger);
+  
+  // Color RGB values for opacity
+  --jh-primary-rgb: 62, 138, 204;  // #3e8acc
+  --jh-secondary-rgb: 108, 117, 125;  // #6c757d
+  --jh-success-rgb: 40, 167, 69;  // #28a745
+  --jh-danger-rgb: 220, 53, 69;  // #dc3545
+  
+  // Background colors
+  --jh-bg: #fff;
+  --jh-bg-light: #f8f9fa;
+  --jh-bg-dark: #343a40;
+  
+  // Text colors
+  --jh-text-color: #212529;
+  --jh-text-muted: #6c757d;
+  
+  // Border
+  --jh-border-color: #dee2e6;
+  --jh-border-radius: #{$border-radius};
+  
+  // Spacing
+  --jh-spacing-xs: 0.25rem;
+  --jh-spacing-sm: 0.5rem;
+  --jh-spacing-md: 1rem;
+  --jh-spacing-lg: 1.5rem;
+  --jh-spacing-xl: 2rem;
+  
+  // Layout
+  --jh-container-padding: var(--jh-spacing-md);
+  --jh-navbar-padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+  --jh-card-padding: var(--jh-spacing-lg);
+  
+  // Typography
+  --jh-font-family: #{$font-family-sans-serif};
+  --jh-font-size-base: #{$font-size-base};
+  --jh-line-height: 1.5;
+  
+  // Shadows
+  --jh-shadow-sm: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  --jh-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  --jh-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .175);
+  
+  // Interactive states
+  --jh-hover-bg: rgba(0, 0, 0, 0.05);
+  --jh-active-bg: rgba(0, 0, 0, 0.1);
+  --jh-focus-ring: 0 0 0 0.2rem rgba(var(--jh-primary-rgb), 0.25);
+}
+
+// Breakpoints (using Bootstrap's)
+$jh-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+); 

@@ -1,0 +1,68 @@
+/* ==============================================================
+Bootstrap and Variables
+===============================================================*/
+@import 'bootstrap';
+@import 'variables';
+@import 'bootstrap/scss/bootstrap';
+
+/* ==============================================================
+Components
+===============================================================*/
+@import 'components/layout';
+@import 'components/common';
+@import 'components/entities';
+
+/* ==============================================================
+Base styles
+===============================================================*/
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  position: relative;
+  font-family: var(--jh-font-family);
+  color: var(--jh-text-color);
+  background-color: var(--jh-bg);
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* ==============================================================
+Utility Classes
+===============================================================*/
+// Text alignment
+.jh-text-center { text-align: center; }
+.jh-text-left { text-align: left; }
+.jh-text-right { text-align: right; }
+
+// Margins
+.jh-mt-auto { margin-top: auto; }
+.jh-mb-0 { margin-bottom: 0; }
+.jh-mt-0 { margin-top: 0; }
+
+// Flexbox
+.jh-d-flex { display: flex; }
+.jh-align-center { align-items: center; }
+.jh-justify-between { justify-content: space-between; }
+
+// Dimensions
+.jh-w-100 { width: 100%; }
+.jh-h-100 { height: 100%; }
+
+/* ==============================================================
+Print Styles
+===============================================================*/
+@media print {
+  .jh-no-print {
+    display: none !important;
+  }
+}
+
+/* jhipster-needle-scss-add-main JHipster will add new css style */ 

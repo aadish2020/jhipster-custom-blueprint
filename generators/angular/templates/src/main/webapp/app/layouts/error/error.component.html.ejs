@@ -1,0 +1,16 @@
+<%# Error Component %>
+<div class="jh-error">
+  <div class="jh-error-container">
+    <div class="jh-error-image">
+      <span class="hipster jh-error-icon"></span>
+    </div>
+
+    <div class="jh-error-content">
+      <h1 class="jh-error-title" jhiTranslate="error.title">Error page!</h1>
+
+      <div *ngIf="errorMessage" class="jh-error-message">
+        <div class="jh-alert jh-alert-danger">{{ errorMessage }}</div>
+      </div>
+    </div>
+  </div>
+</div> 

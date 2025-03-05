@@ -1,0 +1,23 @@
+<%# Main Layout Template %>
+<jhi-page-ribbon></jhi-page-ribbon>
+
+<div class="jh-layout-root">
+  <%# Navbar - using router-outlet to maintain component integrity %>
+  <div class="jh-layout-navbar">
+    <router-outlet name="navbar"></router-outlet>
+  </div>
+
+  <%# Main Content Area %>
+  <div class="jh-layout-container">
+    <div class="jh-layout-content">
+      <div class="jh-card">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <%# Footer %>
+    <footer class="jh-layout-footer">
+      <jhi-footer></jhi-footer>
+    </footer>
+  </div>
+</div> 

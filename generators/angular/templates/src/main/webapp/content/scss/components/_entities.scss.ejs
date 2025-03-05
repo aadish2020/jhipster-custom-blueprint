@@ -1,0 +1,81 @@
+// Entity List Container
+.jh-entity-container {
+  padding: var(--jh-spacing-lg);
+
+  .jh-entity-header {
+    margin-bottom: var(--jh-spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--jh-spacing-md);
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--jh-text-color);
+    }
+  }
+
+  .jh-entity-actions {
+    display: flex;
+    gap: var(--jh-spacing-sm);
+  }
+}
+
+// Entity Form
+.jh-entity-form {
+  .jh-form-group {
+    margin-bottom: var(--jh-spacing-md);
+  }
+
+  .jh-form-actions {
+    margin-top: var(--jh-spacing-lg);
+    display: flex;
+    gap: var(--jh-spacing-md);
+    justify-content: flex-end;
+  }
+}
+
+// Entity Details
+.jh-entity-details {
+  .jh-detail-group {
+    margin-bottom: var(--jh-spacing-md);
+    
+    label {
+      font-weight: 500;
+      color: var(--jh-text-muted);
+      margin-bottom: var(--jh-spacing-xs);
+    }
+  }
+}
+
+// Entity Table
+.jh-entity-table {
+  margin-top: var(--jh-spacing-lg);
+  
+  .jh-table-header {
+    background-color: var(--jh-bg-light);
+    
+    th {
+      font-weight: 500;
+      color: var(--jh-text-muted);
+      white-space: nowrap;
+      padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+      border-bottom: 2px solid var(--jh-border-color);
+    }
+  }
+  
+  .jh-table-body {
+    td {
+      padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+      border-bottom: 1px solid var(--jh-border-color);
+    }
+  }
+  
+  .jh-table-actions {
+    display: flex;
+    gap: var(--jh-spacing-xs);
+    justify-content: flex-end;
+  }
+} 
