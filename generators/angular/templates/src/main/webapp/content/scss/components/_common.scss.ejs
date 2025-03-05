@@ -1,3 +1,117 @@
+// Home Page
+.jh-home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--jh-spacing-xl) var(--jh-spacing-md);
+  text-align: center;
+
+  .hipster {
+    display: inline-block;
+    width: 240px;
+    height: 240px;
+    background: url('/content/images/jhipster_family_member_2.svg') no-repeat center top;
+    background-size: contain;
+    margin-bottom: var(--jh-spacing-lg);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--jh-text-color);
+    margin-bottom: var(--jh-spacing-sm);
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: var(--jh-text-muted);
+    margin-bottom: var(--jh-spacing-lg);
+  }
+
+  .alert {
+    margin: var(--jh-spacing-md) auto;
+    padding: var(--jh-spacing-md) var(--jh-spacing-lg);
+    border-radius: var(--jh-border-radius);
+    background-color: var(--jh-bg-light);
+    border: 1px solid var(--jh-border-color);
+    max-width: 600px;
+    
+    &.alert-success {
+      background-color: rgba(40, 167, 69, 0.1);
+      border-color: rgba(40, 167, 69, 0.2);
+      color: var(--jh-success);
+    }
+    
+    &.alert-warning {
+      background-color: rgba(255, 193, 7, 0.1);
+      border-color: rgba(255, 193, 7, 0.2);
+      color: var(--jh-warning);
+    }
+
+    .alert-link {
+      color: var(--jh-primary);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0 var(--jh-spacing-xs);
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .links {
+    margin-top: var(--jh-spacing-xl);
+    padding: var(--jh-spacing-lg);
+    background-color: var(--jh-bg-light);
+    border-radius: var(--jh-border-radius);
+    
+    p {
+      font-size: 1.1rem;
+      margin-bottom: var(--jh-spacing-md);
+    }
+    
+    a {
+      color: var(--jh-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: var(--jh-secondary);
+        text-decoration: underline;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: var(--jh-spacing-md) 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--jh-spacing-md);
+      
+      li {
+        margin-bottom: var(--jh-spacing-sm);
+        
+        a {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--jh-spacing-xs);
+          
+          &:hover {
+            transform: translateX(var(--jh-spacing-xs));
+          }
+        }
+      }
+    }
+  }
+}
+
 // Cards
 .jh-card {
   background: white;

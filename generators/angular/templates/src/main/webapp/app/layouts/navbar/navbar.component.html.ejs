@@ -24,18 +24,15 @@
         <!-- Collapsible Navigation Content -->
         <div class="jh-navbar-collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
             <ul class="jh-navbar-nav">
-                <!-- Home Link -->
+                <!-- Home -->
                 <li class="jh-nav-item" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
                     <a class="jh-nav-link" routerLink="/" (click)="collapseNavbar()">
-                        <span>
-                            <fa-icon icon="home"></fa-icon>
-                            <span jhiTranslate="global.menu.home">Home</span>
-                        </span>
+                        <fa-icon icon="home"></fa-icon>
+                        <span jhiTranslate="global.menu.home">Home</span>
                     </a>
                 </li>
 
-                <!-- JHipster Entity Menu -->
-                <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+                <!-- Entity Menu -->
                 <li
                     *ngSwitchCase="true"
                     ngbDropdown
@@ -45,19 +42,17 @@
                     [routerLinkActiveOptions]="{ exact: true }"
                 >
                     <a class="jh-nav-link" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
-                        <span>
-                            <fa-icon icon="th-list"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.main">Entities</span>
-                        </span>
+                        <fa-icon icon="th-list"></fa-icon>
+                        <span jhiTranslate="global.menu.entities.main">Entities</span>
                     </a>
                     <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                         <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                     </ul>
                 </li>
 
-                <!-- Admin Menu -->
+                <!-- Administration Menu -->
                 <li
-                    *jhiHasAnyAuthority="'ROLE_ADMIN'"
+                    *ngSwitchCase="true"
                     ngbDropdown
                     class="jh-nav-item"
                     display="dynamic"
@@ -65,65 +60,78 @@
                     [routerLinkActiveOptions]="{ exact: true }"
                 >
                     <a class="jh-nav-link" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
-                        <span>
-                            <fa-icon icon="users-cog"></fa-icon>
-                            <span jhiTranslate="global.menu.admin.main">Administration</span>
-                        </span>
+                        <fa-icon icon="users-cog"></fa-icon>
+                        <span jhiTranslate="global.menu.admin.main">Administration</span>
                     </a>
                     <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
                         <li>
-                            <a class="jh-dropdown-item" routerLink="/admin/user-management" routerLinkActive="is-active" (click)="collapseNavbar()">
+                            <a
+                                class="jh-dropdown-item"
+                                routerLink="admin/user-management"
+                                routerLinkActive="is-active"
+                                (click)="collapseNavbar()"
+                            >
                                 <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.admin.userManagement">User management</span>
                             </a>
                         </li>
                         <li>
-                            <a class="jh-dropdown-item" routerLink="/admin/metrics" routerLinkActive="is-active" (click)="collapseNavbar()">
+                            <a
+                                class="jh-dropdown-item"
+                                routerLink="admin/metrics"
+                                routerLinkActive="is-active"
+                                (click)="collapseNavbar()"
+                            >
                                 <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
                             </a>
                         </li>
                         <li>
-                            <a class="jh-dropdown-item" routerLink="/admin/health" routerLinkActive="is-active" (click)="collapseNavbar()">
+                            <a
+                                class="jh-dropdown-item"
+                                routerLink="admin/health"
+                                routerLinkActive="is-active"
+                                (click)="collapseNavbar()"
+                            >
                                 <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.admin.health">Health</span>
                             </a>
                         </li>
                         <li>
-                            <a class="jh-dropdown-item" routerLink="/admin/configuration" routerLinkActive="is-active" (click)="collapseNavbar()">
+                            <a
+                                class="jh-dropdown-item"
+                                routerLink="admin/configuration"
+                                routerLinkActive="is-active"
+                                (click)="collapseNavbar()"
+                            >
                                 <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
                             </a>
                         </li>
                         <li>
-                            <a class="jh-dropdown-item" routerLink="/admin/logs" routerLinkActive="is-active" (click)="collapseNavbar()">
+                            <a
+                                class="jh-dropdown-item"
+                                routerLink="admin/logs"
+                                routerLinkActive="is-active"
+                                (click)="collapseNavbar()"
+                            >
                                 <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.admin.logs">Logs</span>
-                            </a>
-                        </li>
-                        <li *ngIf="openAPIEnabled">
-                            <a class="jh-dropdown-item" routerLink="/admin/docs" routerLinkActive="is-active" (click)="collapseNavbar()">
-                                <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.apidocs">API</span>
-                            </a>
-                        </li>
-                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
-                        <li *ngIf="!inProduction">
-                            <a class="jh-dropdown-item" href="./h2-console/" target="_tab" (click)="collapseNavbar()">
-                                <fa-icon icon="database" [fixedWidth]="true"></fa-icon>
-                                <span jhiTranslate="global.menu.admin.database">Database</span>
                             </a>
                         </li>
                     </ul>
                 </li>
 
                 <!-- Language Menu -->
-                <li ngbDropdown class="jh-nav-item" display="dynamic" *ngIf="languages && languages.length > 1">
+                <li
+                    ngbDropdown
+                    class="jh-nav-item"
+                    display="dynamic"
+                    *ngIf="languages && languages.length > 1"
+                >
                     <a class="jh-nav-link" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
-                        <span>
-                            <fa-icon icon="flag"></fa-icon>
-                            <span jhiTranslate="global.menu.language">Language</span>
-                        </span>
+                        <fa-icon icon="flag"></fa-icon>
+                        <span jhiTranslate="global.menu.language">Language</span>
                     </a>
                     <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="languagesnavBarDropdown">
                         <li *ngFor="let language of languages">
@@ -132,8 +140,9 @@
                                 [jhiActiveMenu]="language"
                                 href="javascript:void(0);"
                                 (click)="changeLanguage(language); collapseNavbar()"
-                            >{{ language | findLanguageFromKey }}</a
                             >
+                                {{ language | findLanguageFromKey }}
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -152,14 +161,14 @@
                             <span jhiTranslate="global.menu.account.main">Account</span>
                         </span>
                         <span *ngIf="account?.imageUrl">
-                            <img [src]="account!.imageUrl" class="jh-profile-image" alt="Avatar" />
+                            <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
                         </span>
                     </a>
                     <ul class="jh-dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
                         <li *ngSwitchCase="true">
                             <a
                                 class="jh-dropdown-item"
-                                routerLink="/account/settings"
+                                routerLink="account/settings"
                                 routerLinkActive="is-active"
                                 (click)="collapseNavbar()"
                                 data-cy="settings"
@@ -171,7 +180,7 @@
                         <li *ngSwitchCase="true">
                             <a
                                 class="jh-dropdown-item"
-                                routerLink="/account/password"
+                                routerLink="account/password"
                                 routerLinkActive="is-active"
                                 (click)="collapseNavbar()"
                                 data-cy="passwordItem"
@@ -181,13 +190,23 @@
                             </a>
                         </li>
                         <li *ngSwitchCase="true">
-                            <a class="jh-dropdown-item" (click)="logout()" id="logout" data-cy="logout">
+                            <a
+                                class="jh-dropdown-item"
+                                (click)="logout()"
+                                id="logout"
+                                data-cy="logout"
+                            >
                                 <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.account.logout">Sign out</span>
                             </a>
                         </li>
                         <li *ngSwitchCase="false">
-                            <a class="jh-dropdown-item" (click)="login()" id="login" data-cy="login">
+                            <a
+                                class="jh-dropdown-item"
+                                (click)="login()"
+                                id="login"
+                                data-cy="login"
+                            >
                                 <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
                                 <span jhiTranslate="global.menu.account.login">Sign in</span>
                             </a>
@@ -195,7 +214,7 @@
                         <li *ngSwitchCase="false">
                             <a
                                 class="jh-dropdown-item"
-                                routerLink="/account/register"
+                                routerLink="account/register"
                                 routerLinkActive="is-active"
                                 (click)="collapseNavbar()"
                                 data-cy="register"

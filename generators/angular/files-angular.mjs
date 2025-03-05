@@ -29,6 +29,13 @@ export const files = {
                     method: 'template',
                     renameTo: () => 'app/layouts/profiles/page-ribbon.component.html',
                 },
+
+                // Home Component
+                {
+                    file: 'app/home/home.component.html.ejs',
+                    method: 'template',
+                    renameTo: () => 'app/home/home.component.html',
+                },
                 
                 // SCSS Core files
                 {

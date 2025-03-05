@@ -10,6 +10,9 @@
   display: flex;
   flex-direction: column;
   padding: var(--jh-container-padding);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
   
   @include media-breakpoint-up(sm) {
     padding: var(--jh-spacing-lg);
@@ -18,25 +21,206 @@
 
 .jh-layout-content {
   flex: 1;
+  padding: var(--jh-spacing-lg) 0;
 }
 
-// Navbar styles
+// Navbar
 .jh-navbar {
   background-color: var(--jh-primary);
-  padding: var(--jh-navbar-padding);
-  
-  @include media-breakpoint-up(md) {
-    padding: var(--jh-spacing-md) var(--jh-spacing-lg);
+  padding: 0;
+  box-shadow: var(--jh-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+
+  .jh-navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--jh-spacing-sm) var(--jh-spacing-md);
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    
+    @include media-breakpoint-up(md) {
+      padding: var(--jh-spacing-md) var(--jh-spacing-lg);
+    }
+  }
+
+  .jh-navbar-brand {
+    color: white;
+    text-decoration: none;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: var(--jh-spacing-sm);
+    
+    &-logo {
+      height: 1.5rem;
+      width: auto;
+    }
+    
+    &-title {
+      font-weight: 500;
+    }
+    
+    &-version {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      margin-left: var(--jh-spacing-xs);
+    }
+  }
+
+  .jh-navbar-toggler {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--jh-border-radius);
+    color: white;
+    padding: var(--jh-spacing-xs) var(--jh-spacing-sm);
+    cursor: pointer;
+    
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    fa-icon {
+      font-size: 1.25rem;
+    }
+  }
+
+  .jh-navbar-collapse {
+    display: flex;
+    align-items: center;
+
+    @include media-breakpoint-down(md) {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: var(--jh-spacing-md);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: var(--jh-shadow);
+      
+      &.show {
+        display: block;
+      }
+    }
+  }
+
+  .jh-navbar-nav {
+    display: flex;
+    gap: var(--jh-spacing-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      gap: var(--jh-spacing-sm);
+    }
+  }
+
+  .jh-nav-item {
+    position: relative;
+    
+    &.is-active {
+      .jh-nav-link {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .jh-nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: var(--jh-spacing-xs) var(--jh-spacing-sm);
+    border-radius: var(--jh-border-radius);
+    display: flex;
+    align-items: center;
+    gap: var(--jh-spacing-xs);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    fa-icon {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-down(md) {
+      color: var(--jh-text-color);
+      
+      &:hover {
+        color: var(--jh-primary);
+        background: var(--jh-hover-bg);
+      }
+    }
+  }
+
+  .jh-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: white;
+    border-radius: var(--jh-border-radius);
+    box-shadow: var(--jh-shadow);
+    padding: var(--jh-spacing-xs) 0;
+    margin-top: var(--jh-spacing-xs);
+    z-index: 1000;
+    
+    @include media-breakpoint-down(md) {
+      position: static;
+      box-shadow: none;
+      margin-top: var(--jh-spacing-xs);
+      margin-left: var(--jh-spacing-md);
+    }
+    
+    .jh-dropdown-item {
+      padding: var(--jh-spacing-xs) var(--jh-spacing-md);
+      color: var(--jh-text-color);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--jh-spacing-sm);
+      transition: all 0.2s ease;
+      
+      &:hover, &.is-active {
+        background-color: var(--jh-hover-bg);
+        color: var(--jh-primary);
+      }
+      
+      fa-icon {
+        color: var(--jh-primary);
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .profile-image {
+    height: 2rem;
+    width: 2rem;
+    object-fit: cover;
   }
 }
 
-// Footer styles
+// Footer
 .jh-footer {
-  margin-top: auto;
-  padding: var(--jh-spacing-md);
-  background-color: var(--jh-secondary);
-  color: white;
+  background-color: var(--jh-bg-dark);
+  color: rgba(255, 255, 255, 0.9);
   text-align: center;
+  padding: var(--jh-spacing-lg);
+  margin-top: var(--jh-spacing-xl);
 }
 
 // Error Page
